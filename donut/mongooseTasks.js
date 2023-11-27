@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/test');
+mongoose.connect('mongodb://127.0.0.1:27017/test1');
+var Donut = require("./models/donut").Donut
 
-var schema = mongoose.Schema({ name: String })
-schema.methods.yummy = function(){
-  console.log(this.get("name") + " сказал вкусно")
-  }
-  
-const Donut = mongoose.model('Donut', schema);
+var donut = new Donut({
+  title: "СуперПончик",
+  nick:"SuperDonut"
+  })
+  console.log(donut)
 
-const doughnut = new Donut({ name: 'СуперПончик' });
-doughnut.save().then(() => doughnut.yummy());
+donut.save().then(function(err, donut, affected){
+  console.log(donut.title)
+});
