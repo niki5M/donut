@@ -1,9 +1,18 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const Donut = require("../models/donut").Donut;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', async (req, res, next) => {
+  try {
+    const menu = await Donut.find({}, { _id: 0, title: 1, nick: 1 });
+    res.render('index', {
+      title: 'Express',
+      menu: menu
+    });
+  } catch (err) {
+    next(err);
+  }
 });
-      
+
 module.exports = router;

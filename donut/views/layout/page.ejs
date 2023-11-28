@@ -9,18 +9,13 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
       <div class="container-fluid">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Главная</a>
-          </li>
-         <li class="nav-item">
-            <a class="nav-link" href="/donuts/pink">Розовый</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/donuts/white">Белый</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/donuts/brown">Коричневый</a>
-          </li>
+          <% menu.forEach(function(donut){ %>
+            <li class="nav-item">
+            <a class="nav-link"
+            href="/donuts/<%=donut.nick%>"><%=donut.title%></a>
+            </li>
+            <% }) %>
+            
         </ul>
       </div>
     </nav>
