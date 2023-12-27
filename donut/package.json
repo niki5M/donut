@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "async": "^3.2.5",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
@@ -16,6 +17,7 @@
     "http-errors": "~1.6.3",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.1",
+    "mongosh": "^2.1.0",
     "morgan": "~1.9.1"
   }
 }
