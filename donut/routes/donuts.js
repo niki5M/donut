@@ -6,8 +6,7 @@ const async = require("async")
 router.get('/:nick', async function(req, res, next) {
   try {
     const [donut, donuts] = await Promise.all([
-      Donut.findOne({ nick: req.params.nick }),
-      Donut.find({}, { _id: 0, title: 1, nick: 1 })
+      Donut.findOne({ nick: req.params.nick })
     ]);
   
     if (!donut) {
@@ -27,7 +26,6 @@ function renderDonut(res, title, picture, desc, donuts) {
     title: title,
     picture: picture,
     desc: desc,
-    menu: donuts
   });
 }
 
