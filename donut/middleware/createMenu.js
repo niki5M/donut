@@ -1,4 +1,4 @@
-var Donut = require("./../models/donut").Donut
+var Donut = require("./../models/donut").Donut;
 module.exports = async function(req, res, next) {
   try {
     res.locals.nav = [];

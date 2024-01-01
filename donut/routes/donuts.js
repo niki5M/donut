@@ -5,9 +5,7 @@ const async = require("async")
 
 router.get('/:nick', async function(req, res, next) {
   try {
-    const [donut, donuts] = await Promise.all([
-      Donut.findOne({ nick: req.params.nick })
-    ]);
+    const [donut, donuts] = await Promise.all([Donut.findOne({ nick: req.params.nick })]);
   
     if (!donut) {
       throw new Error("Нет такого");
