@@ -22,8 +22,14 @@
           <% })} %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <%if(user){%>
+            <form action="/logout" method="post">
+            <li><button type="submit" class="btn btnlink">Выйти</button></li>
+            </form>                  
+        <% } else { %>
         <li><a href="/logreg">Войти</a></li>
-        </ul>
+        <% } %>
+      </ul>        
       </div>
     </nav>
     <%- body %>
