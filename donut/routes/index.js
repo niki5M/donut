@@ -16,6 +16,12 @@ router.get('/', async(req, res, next) => {
   catch (err) {next(err);}
 });
 
+/* GET auth page. */
+router.get('/logreg', function(req, res, next) {
+  res.render('logreg',{error:null});
+  res.render('logreg',{error:"Пароль не верный"});
+  });
+
 /* POST login/registration page. */
 router.post('/logreg', function(req, res, next) {
   var username = req.body.username

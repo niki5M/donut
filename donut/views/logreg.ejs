@@ -19,8 +19,11 @@
         
         <div class="form-group">
             <div class="col-sm-offset-1 col-sm-5">
-                <input class="btn btn-primary" type="submit"  type="submit" value="Войти"/>
+                <input class="btn btn-primary" type="submit" value="Войти"/>
             </div>
         </div>
+        <% if(error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
     </form>
 </div>
