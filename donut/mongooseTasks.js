@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/test1');
+mongoose.connect('mongodb://localhost/donutBD');
 var Donut = require("./models/donut").Donut
 
 var donut = new Donut({
@@ -9,5 +9,5 @@ var donut = new Donut({
   console.log(donut)
 
 donut.save().then(function(err, donut, affected){
-  console.log(donut.title)
+  console.log(err)
 });
