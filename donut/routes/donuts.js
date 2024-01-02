@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Donut = require("../models/donut").Donut;
-const async = require("async")
+const async = require("async");
+var checkAuth = require("./../middleware/checkAuth.js");
 
-router.get('/:nick', async function(req, res, next) {
+router.get('/:nick', checkAuth, async function(req, res, next) {
   try {
     const [donut, donuts] = await Promise.all([Donut.findOne({ nick: req.params.nick })]);
   
