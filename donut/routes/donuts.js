@@ -3,7 +3,7 @@ const router = express.Router();
 // const Donut = require("../models/donut").Donut;
 var db = require('../mySQLConnect.js');
 const async = require("async");
-// var checkAuth = require("./../middleware/checkAuth.js");
+var checkAuth = require("./../middleware/checkAuth.js");
 
 // router.get('/:nick', checkAuth, async function(req, res, next) {
 //   try {
@@ -28,7 +28,7 @@ const async = require("async");
 //     desc: desc,
 //   });
 // }
-router.get("/:nick", function(req, res, next) {
+router.get("/:nick",checkAuth, function(req, res, next) {
   db.query(`SELECT * FROM donuts WHERE donuts.nick = '${req.params.nick}'`, (err,donuts) => {
   if(err) {
     console.log(err);
