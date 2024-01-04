@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/donutBD')
-var session = require("express-session")
+//var mongoose = require('mongoose')
+//mongoose.connect('mongodb://localhost/donutBD')
+var session = require("express-session");
+var mysql2 = require('mysql2/promise');
+var MySQLStore = require('express-mysql-session')(session);
 
 
 var indexRouter = require('./routes/index');
@@ -15,6 +17,17 @@ var donutRouter = require('./routes/donuts');
 
 
 var app = express();
+
+var options = {
+  host : '127.0.0.1',
+  port: '3306',
+  user : 'root',
+  password : 'rootroot',
+  database: 'donutBD'
+  };
+
+  var connection = mysql2.createPool(options)
+  var sessionStore = new MySQLStore( options, connection);
 
 // view engine setup
 app.engine('ejs',require('ejs-locals'));
@@ -26,17 +39,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 
-var MongoStore = require('connect-mongo');
+// var MongoStore = require('connect-mongo');
+// app.use(session({
+//   secret: "Donut",
+//   cookie:{maxAge:60*1000},
+//   resave: true,
+//   saveUninitialized: true,
+//   secure: true,
+//   store: MongoStore.create({mongoUrl: 'mongodb://localhost/donutBD'})
+// }))
 app.use(session({
-  secret: "Donut",
-  cookie:{maxAge:60*1000},
+  secret: 'donutBD',
+  key: 'sid',
+  store: sessionStore,
   resave: true,
   saveUninitialized: true,
-  secure: true,
-  store: MongoStore.create({mongoUrl: 'mongodb://localhost/donutBD'})
-}))
-    
+  cookie: { path: '/',
+  httpOnly: true,
+  maxAge: 60*1000
+  }
+  }));
+  
 app.use(function(req,res,next){
     req.session.counter = req.session.counter +1 || 1
     next()
