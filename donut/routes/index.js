@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const Donut = require("../models/donut").Donut;
-const User = require("./../models/user").User;
+//const Donut = require("../models/donut").Donut;
+//const User = require("./../models/user").User;
+var db = require('../mySQLConnect.js');
 
 router.get('/', async (req, res, next) => {
   try {
-    res.render('index', { title:'Express', counter:req.session.counter});
+    res.render('index', { title: 'Express', counter:req.session.counter });
   } catch (err) {
     next(err);
   }
@@ -17,36 +18,34 @@ router.get('/logreg', async function(req, res, next) {
 });
 
 /* POST login/registration page. */
-router.post('/logreg', async function(req, res, next) {
-  const username = req.body.username;
-  const password = req.body.password;
-  try {
-      const user = await User.findOne({ username });
+router.post('/logreg', function(req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
 
-      if (user) {
-          if (user.checkPassword(password)) {
-              req.session.user = user._id;
-              res.redirect('/');
-          } else {
-              res.render('logreg', { title: 'Вход', error: 'Неверный пароль' });
-          }
+  db.query(`SELECT * FROM user WHERE user.username = '${req.body.username}'`, function(err, users) {
+    if (err) return next(err);
+
+    if (users.length > 0) {
+      var user = users[0];
+
+      if (password == user.password) {
+        req.session.user = user.id;
+        res.redirect('/');
       } else {
-          const newUser = new User({ username, password });
-          await newUser.save();
-          req.session.user = newUser._id;
-          res.redirect('/');
+        // Неправильный пароль
+        res.render('logreg', { title: 'Вход', error: 'Неправильный пароль' });
       }
-  } catch (err) {
-      next(err);
-  }
+    } else {
+      db.query(`INSERT INTO user (username, password) VALUES ('${username}', '${password}')`, function(err, user) {
+        if (err) return next(err);
 
+        req.session.user = user.id;
+        res.redirect('/');
+      });
+    }
+  });
 });
 
-
-router.get('/logreg', function(req, res, next) {
-  res.render('logreg',{error:null});
-
-  });
 
 router.post('/logout', function(req, res, next) {
     req.session.destroy()
